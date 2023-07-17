@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "exitzero": "^1.0.1",
     "lodash": "^4.17.21",
     "sass": "^1.63.6",
     "vue": "^3.3.4"

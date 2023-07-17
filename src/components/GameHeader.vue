@@ -4,7 +4,7 @@
             <p class="name">2048</p>
             <div class="score-container">
                 <p>ĐIỂM</p>
-                <p>{{ score }}</p>
+                <p>{{ props.score }}</p>
             </div>
             <div class="score-container">
                 <p>SỐ ĐIỂM CAO</p>

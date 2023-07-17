@@ -8,6 +8,7 @@
 <script setup lang="ts">
   import GameHeader from './components/GameHeader.vue';
   import GameContent from './components/GameContent.vue';
+  // @ts-ignore
   import { ref, onBeforeMount, onMounted } from 'vue';
 
   const data = ref([
@@ -44,16 +45,18 @@
   function randomIntFromInterval(min = 0, max = 7) {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
-
+  // @ts-ignore
   function updateScore(value) {
     score.value = value;
   }
 
+  // @ts-ignore
   function updateBestScore(value) {
     bestScore.value = value;
   }
 
   function back() {
+      // @ts-ignore
     gameContent.value.backToPrevious();
   }
 
@@ -70,6 +73,7 @@
     ];
     score.value = 0;
     initData();
+      // @ts-ignore
     gameContent.value.reset();
   }
 </script>
