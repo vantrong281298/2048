@@ -2,7 +2,17 @@
     <div class="game-content">
         <div class="body" @touchstart="startSwipe" @touchmove="moveSwipe" @touchend="endSwipe">
             <div class="row" v-for="(row, rowIndex) in dataRef" :key="rowIndex">
-                <Item :class="[item > 2 && 'white']" :style="{ backgroundColor: getItemBGColor(item) }" v-for="(item, index) in row" :key="index" :value="item" />
+                <div
+                    :class="[
+                        'item',
+                        item > 2 && 'white'
+                    ]"
+                    :style="{ backgroundColor: getItemBGColor(item) }"
+                    v-for="(item, index) in row"
+                    :key="index"
+                >
+                    {{ item ? item : '' }}
+                </div>
             </div>
         </div>
     </div>
@@ -16,10 +26,14 @@ const props = defineProps({
     data: {
         type: Array,
         default: []
+    },
+    bestScore: {
+        type: Number,
+        default: 0
     }
 });
 
-const emits = defineEmits(['updateScore']);
+const emits = defineEmits(['updateScore', 'updateBestScore']);
 
 const COLOR_BY_SCORE = [
   {
@@ -173,8 +187,16 @@ function updatePosition(direction) {
         if (checkGameOver()) {
             alert('Game over!');
         }
+        newRandom();
+        saveData();
     }
-    newRandom();
+}
+
+function saveData() {
+    if (score.value > props.bestScore) {
+        localStorage.setItem('bestScore', score.value);
+        emits('updateBestScore', score.value);
+    }
 }
 
 function checkGameOver() {
@@ -312,10 +334,16 @@ function newRandom() {
 }
 
 function backToPrevious() {
+    if (!previousPosition.value) return;
+
     dataRef.value = previousPosition.value;
 }
 
-defineExpose({ backToPrevious });
+function reset() {
+    score.value = 0;
+}
+
+defineExpose({ backToPrevious, reset });
 
 </script>
 
@@ -326,16 +354,16 @@ defineExpose({ backToPrevious });
     .body {
         padding: 5px;
         background-color: #b9ad9f;
-        border-radius: 5px;
+        border-radius: 8px;
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 4px;
 
         .row {
             display: flex;
-            gap: 5px;
+            gap: 6px;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: center;
 
             .item {
                 flex: 1 0 8%;
@@ -344,9 +372,12 @@ defineExpose({ backToPrevious });
                 border-radius: 5px;
                 text-align: center;
                 font-weight: 700;
-                max-width: 25px;
-                min-width: 25px;
+                max-width: 26px;
+                min-width: 26px;
+                min-height: 26px;
+                max-height: 26px;
                 color: #736a63;
+                transition: transform 0.5s ease-in-out;
             }
             .white {
                 color: #fff;

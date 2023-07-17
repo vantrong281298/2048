@@ -1,7 +1,7 @@
 <template>
   <div class="game-container">
-    <GameHeader :score="score" @back="back" @reset="reset" />
-    <GameContent ref="gameContent" :data="data" @updateScore="updateScore"/>
+    <GameHeader :score="score" :bestScore="bestScore" @back="back" @reset="reset" />
+    <GameContent ref="gameContent" :data="data" :bestScore="bestScore" @updateScore="updateScore" @updateBestScore="updateBestScore"/>
   </div>
 </template>
 
@@ -21,14 +21,24 @@
     [0, 0, 0, 0, 0, 0, 0, 0]
   ]);
   const score = ref(0);
+  const bestScore = ref(0);
   const gameContent = ref(null);
 
   onBeforeMount(() => {
     initData();
   });
 
+  function retrieveData() {
+    const myData = localStorage.getItem('bestScore');
+    if (myData) {
+      bestScore.value = Number(myData);
+    }
+  }
+
   function initData() {
     data.value[randomIntFromInterval()][randomIntFromInterval()] = 2;
+
+    retrieveData();
   }
 
   function randomIntFromInterval(min = 0, max = 7) {
@@ -37,6 +47,10 @@
 
   function updateScore(value) {
     score.value = value;
+  }
+
+  function updateBestScore(value) {
+    bestScore.value = value;
   }
 
   function back() {
@@ -56,6 +70,7 @@
     ];
     score.value = 0;
     initData();
+    gameContent.value.reset();
   }
 </script>
 

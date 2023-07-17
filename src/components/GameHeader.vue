@@ -8,14 +8,22 @@
             </div>
             <div class="score-container">
                 <p>SỐ ĐIỂM CAO</p>
-                <p>{{ score }}</p>
+                <p>{{ bestScore }}</p>
             </div>
         </div>
         <div class="game-header__actions">
-            <p>Đánh giá</p>
-            <p>Chia sẻ</p>
-            <p @click="$emit('back')">back</p>
-            <p @click="$emit('reset')">reset</p>
+            <div class="item">
+                <p>Đánh giá</p>
+                <p>Chia sẻ</p>
+            </div>
+            <div class="item">
+                <p class="back-btn" @click="$emit('back')">
+                    <img src="/back.png" alt="back">
+                </p>
+                <p @click="$emit('reset')">
+                    <img src="/reset.png" alt="back">
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -23,6 +31,10 @@
 <script setup lang="ts">
 const props = defineProps({
     score: {
+        type: Number,
+        default: 0
+    },
+    bestScore: {
         type: Number,
         default: 0
     }
@@ -69,8 +81,13 @@ const props = defineProps({
     }
     &__actions {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+
+        .item {
+            display: flex;
+            gap: 10px;
+        }
 
         p {
             margin: 0;
@@ -80,6 +97,17 @@ const props = defineProps({
             padding: 5px;
             border-radius: 5px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .back-btn {
+            margin-right: 10px;
         }
     }
 }
