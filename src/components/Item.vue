@@ -1,5 +1,5 @@
 <template>
-    <div class="item">{{ value }}</div>
+    <div class="item">{{ value ? value : '' }}</div>
 </template>
 
 <script setup lang="ts">
@@ -19,8 +19,10 @@ const props = defineProps({
         border-radius: 5px;
         text-align: center;
         font-weight: 700;
-        max-width: 30px;
-        min-width: 30px;
+        max-width: 25px;
+        min-width: 25px;
+        min-height: 25px;
+        max-height: 25px;
         color: #736a63;
     }
 </style>
